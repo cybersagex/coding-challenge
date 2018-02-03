@@ -3,6 +3,7 @@ $(document).ready(function(){
 	var code = $(".codemirror-textarea")[0];
 	//adding codemirror to textarea
 	var editor = CodeMirror.fromTextArea(code,{
-		lineNumbers : true
+		lineNumbers : true,
+		theme :  "rubyblue"
 	});
 });
