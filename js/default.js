@@ -4,6 +4,7 @@ $(document).ready(function(){
 	//adding codemirror to textarea
 	var editor = CodeMirror.fromTextArea(code,{
 		lineNumbers : true,
-		theme :  "rubyblue"
+		theme :  "rubyblue",
+		mode : "python"
 	});
 });
