@@ -5,6 +5,7 @@ $(document).ready(function(){
 	var editor = CodeMirror.fromTextArea(code,{
 		lineNumbers : true,
 		theme :  "rubyblue",
-		mode : "python"
+		mode : "python",
+        autoCloseBrackets : true
 	});
 });
