@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
       <head>
         <!-- Required meta tags -->
@@ -19,6 +19,15 @@
           .navbar{
             margin-bottom: 30px;
           }
+          #bordered-textarea{
+            margin-bottom: 20px;
+          }
+          #btn-run{
+             margin-right: 20px;   
+          }
+          #output{
+            margin-top: 30px;
+          }
         </style>
         
       </head>
@@ -32,7 +41,7 @@
         </nav>
         <!-- body -->
         <div class="container">
-             <p>Q1. Write a python program to find factorial of a number</p>
+             <p>Q1. Write a python program to print factorial of a number</p>
         </div>
         <div class="container mt-2-lg">
           <div id="bordered-textarea" class="border border-success">
@@ -42,21 +51,59 @@
             <!-- codemirror js -->
             <script type="text/javascript" src="vendors/plugin/codemirror/lib/codemirror.js"></script>
             <script type="text/javascript" src="vendors/js/jquery.slim.min.js"></script>
-            <!-- including default.js file -->
-            <script type="text/javascript" src="resources/js/default.js"></script>
-			<!-- changing the mode of the code-editor to python -->
+            <!-- changing the mode of the code-editor to python -->
             <script type="text/javascript" src="vendors/plugin/codemirror/mode/python/python.js"></script>
             <!-- adding a autoclosebrackets feature to the editor -->
             <script type="text/javascript" src="vendors/plugin/codemirror/addon/edit/closebrackets.js"></script>
 
           </div><!-- bordered-textarea -->
+          <button id="btn-run" type="button" class="btn btn-info">Compile/Run</button><!--run/compile button-->
+          
+          <button id="btn-submit" type="button" class="btn btn-success">Submit and Next</button><!--submit and next button -->
+        
+          <div id="output" class="border border-success">
+              <textarea class="form-control" id="output-textarea" rows="7"></textarea>
+          </div>
         </div><!-- container -->
-
 
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <!--including jquery-->
+        <script type="text/javascript" src="vendors/js/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+          
+        <script type="text/javascript">
+            //setting up the coding text-editor
+            $(document).ready(function(){
+                //code here....
+                var code = $(".codemirror-textarea")[0];
+                //adding codemirror to textarea
+                var editor = CodeMirror.fromTextArea(code,{
+                    lineNumbers : true,
+                    theme : "rubyblue",
+                    mode : "python",
+                    autoCloseBrackets : true
+                });
+                //compile/run button function
+                $("#btn-run").click(function(){
+                    var userCode = editor.getValue();
+                    $.ajax({
+                    type: 'POST',
+                    url: 'BackendFunctions/EvalCode/compile.php',
+                    data: {code: userCode},
+                    success: function(data) {
+                        alert(data);
+                        $("textarea#output-textarea").val(data);
+                    }
+                    }).fail(function(){
+                        alert("could not complete");
+                    });
+                      
+                });
+            });
+          
+        </script>
+          
       </body>
 </html>
