@@ -23,13 +23,19 @@
             margin-bottom: 20px;
           }
           #btn-run{
-             margin-right: 20px;   
+             margin-right: 30px;
           }
           #output{
             margin-top: 30px;
           }
+          .list-group{
+            margin-top: 30px;
+          }
+          .table{
+            margin-bottom: 30px;
+          }
         </style>
-        
+
       </head>
       <body>
         <!--NAVBAR-->
@@ -42,6 +48,32 @@
         <!-- body -->
         <div class="container">
              <p>Q1. Write a python program to print factorial of a number</p>
+             <table class="table table-sm table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Test Case</th>
+                    <th scope="col">Input</th>
+                    <th scope="col">Output</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>5</td>
+                    <td>120</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>4</td>
+                    <td>24</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>7</td>
+                    <td>5040</td>
+                  </tr>
+                </tbody>
+              </table>
         </div>
         <div class="container mt-2-lg">
           <div id="bordered-textarea" class="border border-success">
@@ -58,9 +90,25 @@
 
           </div><!-- bordered-textarea -->
           <button id="btn-run" type="button" class="btn btn-info">Compile/Run</button><!--run/compile button-->
-          
+
           <button id="btn-submit" type="button" class="btn btn-success">Submit and Next</button><!--submit and next button -->
-        
+
+          <!--test cases container -->
+          <ul class="list-group">
+            <li id="testCase1" class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+              Test Case 1
+              <span id="tc1" class="badge badge-primary badge-pill"></span>
+            </li>
+            <li id="testCase2" class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+              Test Case 2
+              <span id="tc2" class="badge badge-primary badge-pill"></span>
+            </li>
+            <li id="testCase3" class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+              Test Case 3
+              <span id="tc3" class="badge badge-primary badge-pill"></span>
+            </li>
+          </ul>
+
           <div id="output" class="border border-success">
               <textarea class="form-control" id="output-textarea" rows="7"></textarea>
           </div>
@@ -72,12 +120,15 @@
         <script type="text/javascript" src="vendors/js/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-          
+
         <script type="text/javascript">
             //setting up the coding text-editor
             $(document).ready(function(){
                 //code here....
                 var code = $(".codemirror-textarea")[0];
+                //testcases and expectedOutput will be fetched from database
+                var testcases = ["fact(5)","fact(4)","fact(7)"];
+                var expectedOutput = ["120","24","5040"];
                 //adding codemirror to textarea
                 var editor = CodeMirror.fromTextArea(code,{
                     lineNumbers : true,
@@ -88,22 +139,50 @@
                 //compile/run button function
                 $("#btn-run").click(function(){
                     var userCode = editor.getValue();
+                    var i;
+                    for(i=0;i<testcases.length;i++)
+                    {
+                      userCode = userCode + "\n" + testcases[i] ;
+                    }
                     $.ajax({
                     type: 'POST',
                     url: 'BackendFunctions/EvalCode/compile.php',
                     data: {code: userCode},
+                    dataType: 'json',
                     success: function(data) {
-                        alert(data);
+                        var out=JSON.parse(data);
+                        var outputs = out.output.split("\n");
+                        var j;
+                        var count=1;
+                        for(j=0;j<outputs.length;j++)
+                        {
+                          if(expectedOutput[j]===outputs[j])
+                          {
+                            $("#testCase"+count).removeClass("list-group-item-primary");
+                            $("#testCase"+count).addClass("list-group-item-success");
+                            $("#tc"+count).removeClass("badge-primary");
+                            $("#tc"+count).addClass("badge-success");
+                            $("#tc"+count).html("passed");
+                          }
+                          else {
+                            $("#testCase"+count).removeClass("list-group-item-primary");
+                            $("#testCase"+count).addClass("list-group-item-danger");
+                            $("#tc"+count).removeClass("badge-primary");
+                            $("#tc"+count).addClass("badge-danger");
+                            $("#tc"+count).html("failed");
+                          }
+                          count++;
+                        }
                         $("textarea#output-textarea").val(data);
                     }
                     }).fail(function(){
                         alert("could not complete");
                     });
-                      
+
                 });
             });
-          
+
         </script>
-          
+
       </body>
 </html>
