@@ -9,8 +9,9 @@
      $ch = curl_init();
      //setting postfields
      $dataArray = array(
-         'clientId' => '53c45f6c533639fd6b0d232e885141c6',
-         'clientSecret' => '499c2ec1ae286b305a9cd1101942adc11adb7bbf8abdaea971b564ebcd701d7a',
+	 //hidden client id and client secret
+         'clientId' => '*******',
+         'clientSecret' => '*********',
          'script' => $_POST['code'],
          'language' => 'python3',
          'versionIndex' => '0'
