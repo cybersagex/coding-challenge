@@ -34,6 +34,28 @@
           .table{
             margin-bottom: 30px;
           }
+          .loader {
+          border: 16px solid #f3f3f3;
+          border-radius: 50%;
+          margin-top: 20px;
+          border-top: 16px solid blue;
+          border-bottom: 16px solid blue;
+          width: 40px;
+          height: 40px;
+          display: none;
+          -webkit-animation: spin 2s linear infinite;
+          animation: spin 2s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+          0% { -webkit-transform: rotate(0deg); }
+          100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
         </style>
 
       </head>
@@ -92,7 +114,7 @@
           <button id="btn-run" type="button" class="btn btn-info">Compile/Run</button><!--run/compile button-->
 
           <button id="btn-submit" type="button" class="btn btn-success">Submit and Next</button><!--submit and next button -->
-
+          <div class="loader"></div>
           <!--test cases container -->
           <ul class="list-group">
             <li id="testCase1" class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
@@ -149,6 +171,12 @@
                     url: 'BackendFunctions/EvalCode/compile.php',
                     data: {code: userCode},
                     dataType: 'json',
+                    beforeSend: function(){
+                      $(".loader").show();
+                    },
+                    complete: function(){
+                      $(".loader").hide();
+                    },
                     success: function(data) {
                         var out=JSON.parse(data);
                         var outputs = out.output.split("\n");
