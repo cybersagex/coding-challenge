@@ -11,7 +11,7 @@
      $dataArray = array(
 	 //hidden client id and client secret
          'clientId' => '*******',
-         'clientSecret' => '*********',
+         'clientSecret' => '********',
          'script' => $_POST['code'],
          'language' => 'python3',
          'versionIndex' => '0'
