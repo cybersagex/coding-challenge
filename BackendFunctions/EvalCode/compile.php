@@ -24,14 +24,14 @@
 	curl_setopt($ch, CURLOPT_POST, 1);
 	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-      
+
     //setting request headers
 	$headers = array();
 	$headers[] = "Content-Type: application/json; charset=UTF-8";
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-     
+
     //fetching results
-	$result = curl_exec($ch);
+	$result = json_encode(curl_exec($ch));
 	if (curl_errno($ch)) {
 	    echo 'Error:' . curl_error($ch);
 	}
@@ -39,4 +39,4 @@
 	curl_close ($ch);
 	echo $result;
   }
-?>  
+?>
