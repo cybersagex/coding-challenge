@@ -15,9 +15,13 @@
     <link rel="stylesheet" href="resources/css/custom.css" type="text/css">
 
 
-    <title>Trial</title>
+    <title>Resources</title>
     <style>
 
+    .spacer{
+      padding-top: 70px;
+      margin: 0px;
+    }
 
     .sidenav {
         height: 100%;
@@ -46,29 +50,25 @@
 
     #leftscroll1 {
         margin-left: 160px;
-     margin-right: 100px;
-     margin-top: 70px;
+        margin-right: 100px;
         padding: 0px 10px;
     }
 
     #leftscroll2 {
         margin-left: 160px;
-     margin-right: 100px;
-     margin-top: 70px;
+        margin-right: 100px;
         padding: 0px 10px;
     }
 
     #leftscroll3 {
         margin-left: 160px;
-     margin-right: 100px;
-     margin-top: 70px;
+        margin-right: 100px;
         padding: 0px 10px;
     }
 
     #leftscroll4 {
         margin-left: 160px;
-     margin-right: 100px;
-     margin-top: 70px;
+        margin-right: 100px;
         padding: 0px 10px;
     }
 
@@ -80,33 +80,25 @@
 
 	        <!--HEADER-->
         <header class="site-header" role="banner">
+          <!-- NAVBAR -->
+          <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" >
+              <a class="navbar-brand" href="/">CodeMapper</a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
 
-            <!--NAVBAR-->
-                <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg" style="background-color:#032336;" >
-                    <a class="navbar-brand" href="/">BrandNameHere</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav mr-auto">
+                      <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                      <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
+                      <li class="nav-item"><a class="nav-link" href="challenge-page.html">Compete</a></li>
+                      <li class="nav-item active"><a class="nav-link" href="DocumentationSect.html">Resources</a></li>
+                  </ul>
+                  <button type="button" id="login-btn" class="btn btn-primary" data-toggle="modal" data-target="#login-modal">Login</button>
+                  <button type="button" id="signup-btn" class="btn btn-success" data-toggle="modal" data-target="#signup-modal">Sign Up</button>
+              </div><!--collapse-->
+          </nav><!--navbar-->
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Compete</a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">C</a>
-                                    <a class="dropdown-item" href="#">C++</a>
-                                    <a class="dropdown-item" href="#">Python</a>
-									<a class="dropdown-item" href="#">Java</a>
-                                </div>
-                            </li>
-                            <li class="nav-item"><a class="nav-link" href="#">Resources</a></li>
-                        </ul>
-                        <button type="button" id="login-btn" class="btn btn-primary" data-toggle="modal" data-target="#login-modal">Login</button>
-                        <button type="button" id="signup-btn" class="btn btn-success" data-toggle="modal" data-target="#signup-modal">Sign Up</button>
-                    </div><!--collapse-->
-                </nav><!--navbar-->
         </header><!--header-->
 
         <!--HERO SECTION-->
@@ -209,16 +201,19 @@
 
 		 <li>
 			<div data-spy="scroll" data-target="#sidenav" id="leftscroll1" >
-				 <h4 id="introduction">Introduction</h4>
-				 <p>Java is a set of computer software and specifications developed by Sun Microsystems, which was later acquired by the Oracle Corporation, that provides a system for developing application software and deploying it in a cross-platform computing environment. Java is used in a wide variety of computing platforms from embedded devices and mobile phones to enterprise servers and supercomputers.
-				    Writing in the Java programming language is the primary way to produce code that will be deployed as byte code in a Java virtual machine (JVM); byte code compilers are also available for other languages, including Ada, JavaScript, Python, and Ruby. In addition, several languages have been designed to run natively on the JVM, including Scala, Clojure and Apache Groovy. Java syntax borrows heavily from C and C++, but object-oriented features are modeled after Smalltalk and Objective-C.[10] Java eschews certain low-level constructs such as pointers and has a very simple memory model where every object is allocated on the heap and all variables of object types are references. Memory management is handled through integrated automatic garbage collection performed by the JVM.
-				    On November 13, 2006, Sun Microsystems made the bulk of its implementation of Java available under the GNU General Public License (GPL).
-					The latest version is Java 9, the second of the two supported (with e.g. security updates) versions as of 2017. Oracle (and others) has announced that using older versions (other than Java 8) of their JVM implementation presents serious risks, due to unresolved security issues.
+				 <div id="introduction" class="spacer"></div>
+         <h4 >Introduction</h4>
+         <p>Java is a set of computer software and specifications developed by Sun Microsystems, which was later acquired by the Oracle Corporation, that provides a system for developing application software and deploying it in a cross-platform computing environment. Java is used in a wide variety of computing platforms from embedded devices and mobile phones to enterprise servers and supercomputers.
+            Writing in the Java programming language is the primary way to produce code that will be deployed as byte code in a Java virtual machine (JVM); byte code compilers are also available for other languages, including Ada, JavaScript, Python, and Ruby. In addition, several languages have been designed to run natively on the JVM, including Scala, Clojure and Apache Groovy. Java syntax borrows heavily from C and C++, but object-oriented features are modeled after Smalltalk and Objective-C.[10] Java eschews certain low-level constructs such as pointers and has a very simple memory model where every object is allocated on the heap and all variables of object types are references. Memory management is handled through integrated automatic garbage collection performed by the JVM.
+            On November 13, 2006, Sun Microsystems made the bulk of its implementation of Java available under the GNU General Public License (GPL).
+          The latest version is Java 9, the second of the two supported (with e.g. security updates) versions as of 2017. Oracle (and others) has announced that using older versions (other than Java 8) of their JVM implementation presents serious risks, due to unresolved security issues.
 
-				 </p>
 			</div>
+
+      </p>
 			<div data-spy="scroll" data-target="#sidenav" id="leftscroll2" >
-				 <h4 id="variables">Variables</h4>
+        <div id="variables" class="spacer"></div>
+				 <h4>Variables</h4>
 				 <p>The Java platform is a suite of programs that facilitate developing and running programs written in the Java programming language. A Java platform will include an execution engine (called a virtual machine), a compiler and a set of libraries; there may also be additional servers and alternative libraries that depend on the requirements. Java is not specific to any processor or operating system as Java platforms have been implemented for a wide variety of hardware and operating systems with a view to enable Java programs to run identically on all of them. Different platforms target different classes of device and application domains:
 					Java Card: A technology that allows small Java-based applications (applets) to be run securely on smart cards and similar small-memory devices.
 					Java ME (Micro Edition): Specifies several different sets of libraries (known as profiles) for devices with limited storage, display, and power capacities. It is often used to develop applications for mobile devices, PDAs, TV set-top boxes, and printers.
@@ -229,15 +224,16 @@
 				 </p>
 			</div>
 			<div data-spy="scroll" data-target="#sidenav" id="leftscroll3" >
-				 <h4 id="datatypes">Data Types</h4>
-				 <p>
-					In most modern operating systems (OSs), a large body of reusable code is provided to simplify the programmer's job. This code is typically provided as a set of dynamically loadable libraries that applications can call at runtime. Because the Java platform is not dependent on any specific operating system, applications cannot rely on any of the pre-existing OS libraries. Instead, the Java platform provides a comprehensive set of its own standard class libraries containing many of the same reusable functions commonly found in modern operating systems. Most of the system library is also written in Java. For instance, the Swing library paints the user interface and handles the events itself, eliminating many subtle differences between how different platforms handle components.
-					The Java class libraries serve three purposes within the Java platform. First, like other standard code libraries, the Java libraries provide the programmer a well-known set of functions to perform common tasks, such as maintaining lists of items or performing complex string parsing. Second, the class libraries provide an abstract interface to tasks that would normally depend heavily on the hardware and operating system. Tasks such as network access and file access are often heavily intertwined with the distinctive implementations of each platform. The java.net and java.io libraries implement an abstraction layer in native OS code, then provide a standard interface for the Java applications to perform those tasks. Finally, when some underlying platform does not support all of the features a Java application expects, the class libraries work to gracefully handle the absent components, either by emulation to provide a substitute, or at least by providing a consistent way to check for the presence of a specific feature.
-				 </p>
+        <div id="datatypes" class="spacer"></div>
+        <h4 >Data Types</h4>
+        <p>
+        In most modern operating systems (OSs), a large body of reusable code is provided to simplify the programmer's job. This code is typically provided as a set of dynamically loadable libraries that applications can call at runtime. Because the Java platform is not dependent on any specific operating system, applications cannot rely on any of the pre-existing OS libraries. Instead, the Java platform provides a comprehensive set of its own standard class libraries containing many of the same reusable functions commonly found in modern operating systems. Most of the system library is also written in Java. For instance, the Swing library paints the user interface and handles the events itself, eliminating many subtle differences between how different platforms handle components.
+        The Java class libraries serve three purposes within the Java platform. First, like other standard code libraries, the Java libraries provide the programmer a well-known set of functions to perform common tasks, such as maintaining lists of items or performing complex string parsing. Second, the class libraries provide an abstract interface to tasks that would normally depend heavily on the hardware and operating system. Tasks such as network access and file access are often heavily intertwined with the distinctive implementations of each platform. The java.net and java.io libraries implement an abstraction layer in native OS code, then provide a standard interface for the Java applications to perform those tasks. Finally, when some underlying platform does not support all of the features a Java application expects, the class libraries work to gracefully handle the absent components, either by emulation to provide a substitute, or at least by providing a consistent way to check for the presence of a specific feature.
+        </p>
 			</div>
 			<div data-spy="scroll" data-target="#sidenav" id="leftscroll4" >
-
-				 <h4 id="loops">Loops</h4>
+        <div id="loops" class="spacer"></div>
+				 <h4 >Loops</h4>
 				 <p>
 					The Java platform and language began as an internal project at Sun Microsystems in December 1990, providing an alternative to the C++/C programming languages. Engineer Patrick Naughton had become increasingly frustrated with the state of Sun's C++ and C application programming interfaces (APIs) and tools, as well as with the way the NeWS project was handled by the organization. Naughton informed Scott McNealy about his plan of leaving Sun and moving to NeXT; McNealy asked him to pretend he was God and send him an e-mail explaining how to fix the company. Naughton envisioned the creation of a small team that could work autonomously without the bureaucracy that was stalling other Sun projects. McNealy forwarded the message to other important people at Sun, and the Stealth Project started. [21]
 					The Stealth Project was soon renamed to the Green Project, with James Gosling and Mike Sheridan joining Naughton. Together with other engineers, they began work in a small office on Sand Hill Road in Menlo Park, California. They aimed to develop new technology for programming next-generation smart appliances, which Sun expected to offer major new opportunities.[22]
@@ -246,26 +242,6 @@
 			</div>
 		 </li>
 		 </ul>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <!-- Optional JavaScript -->
