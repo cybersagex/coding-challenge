@@ -63,33 +63,14 @@
         </nav>
         <!-- body -->
         <div class="container">
-             <p>Q1. Write a python program to print factorial of a number</p>
-             <table class="table table-sm table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">Test Case</th>
-                    <th scope="col">Input</th>
-                    <th scope="col">Output</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>5</td>
-                    <td>120</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>4</td>
-                    <td>24</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>7</td>
-                    <td>5040</td>
-                  </tr>
-                </tbody>
-              </table>
+             <p class="lead"><span id="qnumber"></span><span id="question"></span></p>
+
+             <!--sample test cases-->
+              <div class="alert alert-info" role="alert">
+                <h4 class="alert-heading">Sample Test Cases</h4>
+                <div id="tc">
+                </div>
+              </div>
         </div>
         <div class="container mt-2-lg">
           <div id="bordered-textarea" class="border border-success">
@@ -123,6 +104,14 @@
               Test Case 3
               <span id="tc3" class="badge badge-primary badge-pill"></span>
             </li>
+            <li id="testCase4" class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+              Test Case 4
+              <span id="tc4" class="badge badge-primary badge-pill"></span>
+            </li>
+            <li id="testCase5" class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+              Test Case 5
+              <span id="tc5" class="badge badge-primary badge-pill"></span>
+            </li>
           </ul>
 
           <div id="output" class="border border-success">
@@ -143,14 +132,42 @@
                 //code here....
                 var code = $(".codemirror-textarea")[0];
                 //testcases and expectedOutput will be fetched from database
-                var testcases = ["fact(5)","fact(4)","fact(7)"];
-                var expectedOutput = ["120","24","5040"];
+                var testcases = new Array();
+                var expectedOutput = new Array();
                 //adding codemirror to textarea
                 var editor = CodeMirror.fromTextArea(code,{
                     lineNumbers : true,
                     theme : "rubyblue",
                     mode : "python",
                     autoCloseBrackets : true
+                });
+                //on page load fetch first challenge question
+                var record=1;
+                $.ajax({
+                  type:'POST',
+                  url:'BackendFunctions/fetch_next_question.php',
+                  data: {rnum:record},
+                  dataType: 'json',
+                  beforeSend: function(){
+                    $(".loader").show();
+                  },
+                  complete: function(){
+                    $(".loader").hide();
+                  },
+                  success: function(data){
+                      var qno = data.qid;
+                      var quest = data.question;
+                      var initial = data.initial_code;
+                      var sampleTC = data.sample_testcases;
+                      testcases = data.testcases_inp;
+                      expectedOutput = data.testcases_out;
+                      $('#qnumber').html("Q<b>"+qno+".</b> ");
+                      $('#question').html("<b>"+quest+"</b>");
+                      $('#tc').html(sampleTC);
+                      editor.getDoc().setValue("#don't touch this function call\n"+initial);
+                  }
+                }).fail(function(){
+                  alert("could not complete");
                 });
                 //compile/run button function
                 $("#btn-run").click(function(){
@@ -181,15 +198,19 @@
                           if(expectedOutput[j]===outputs[j])
                           {
                             $("#testCase"+count).removeClass("list-group-item-primary");
+                            $("#testCase"+count).removeClass("list-group-item-danger");
                             $("#testCase"+count).addClass("list-group-item-success");
                             $("#tc"+count).removeClass("badge-primary");
+                            $("#tc"+count).removeClass("badge-danger");
                             $("#tc"+count).addClass("badge-success");
                             $("#tc"+count).html("passed");
                           }
                           else {
                             $("#testCase"+count).removeClass("list-group-item-primary");
+                            $("#testCase"+count).removeClass("list-group-item-success");
                             $("#testCase"+count).addClass("list-group-item-danger");
                             $("#tc"+count).removeClass("badge-primary");
+                            $("#tc"+count).removeClass("badge-success");
                             $("#tc"+count).addClass("badge-danger");
                             $("#tc"+count).html("failed");
                           }
@@ -201,6 +222,45 @@
                         alert("could not complete");
                     });
 
+                });
+                //next button function
+                $("#btn-submit").click(function(){
+                  record = record + 1;
+                  $.ajax({
+                    type:'POST',
+                    url:'BackendFunctions/fetch_next_question.php',
+                    data: {rnum:record},
+                    dataType: 'json',
+                    beforeSend: function(){
+                      $(".loader").show();
+                    },
+                    complete: function(){
+                      $(".loader").hide();
+                    },
+                    success: function(data){
+                        var qno = data.qid;
+                        var quest = data.question;
+                        var initial = data.initial_code;
+                        var sampleTC = data.sample_testcases;
+                        testcases = data.testcases_inp;
+                        expectedOutput = data.testcases_out;
+                        $('#qnumber').html("<b>Q"+qno+"</b>.");
+                        $('#question').html("<b>"+quest+"</b>");
+                        $('#tc').html(sampleTC);
+                        editor.getDoc().setValue("#don't touch this function call\n"+initial);
+                        for(count=1;count<=5;count++){
+                          $("#testCase"+count).removeClass("list-group-item-success");
+                          $("#testCase"+count).removeClass("list-group-item-danger");
+                          $("#testCase"+count).addClass("list-group-item-primary");
+                          $("#tc"+count).removeClass("badge-success");
+                          $("#tc"+count).removeClass("badge-danger");
+                          $("#tc"+count).addClass("badge-primary");
+                          $("#tc"+count).html("");
+                       }
+                    }
+                  }).fail(function(){
+                    alert("could not complete");
+                  });
                 });
             });
 
