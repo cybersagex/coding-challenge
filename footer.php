@@ -1,3 +1,5 @@
+
+<p>&#169; codemapper, 2018 </p>
 <script type="text/javascript" src="vendors/js/jquery.min.js"></script>
 
 <!--JQuery-->

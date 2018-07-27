@@ -53,7 +53,13 @@
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="index.php">About Us</a></li>
-                            <li class="nav-item"><a class="nav-link" href="challenge-page.php">Compete</a></li>
+                            <?php
+                              if(isset($_SESSION['u_email'])) {
+                                echo '<li class="nav-item"><a class="nav-link" href="challenge-page.php">Compete</a></li>';
+                              } else {
+                                echo '<li class="nav-item"><a class="nav-link" href="rules.php">Compete</a></li>';
+                              }
+                            ?>
                             <li class="nav-item"><a class="nav-link" href="DocumentationSect.php">Resources</a></li>
                         </ul>
                         <?php
