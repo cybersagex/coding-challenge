@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.7.9
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 21, 2018 at 03:54 PM
--- Server version: 5.7.19
--- PHP Version: 5.6.31
+-- Generation Time: Jul 27, 2018 at 01:24 PM
+-- Server version: 5.7.21
+-- PHP Version: 5.6.35
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -24,9 +26,6 @@ SET time_zone = "+00:00";
 
 --
 -- Table structure for table `questions`
---
--- Creation: Jun 17, 2018 at 05:50 PM
--- Last update: Jun 20, 2018 at 12:12 PM
 --
 
 DROP TABLE IF EXISTS `questions`;
@@ -53,9 +52,6 @@ INSERT INTO `questions` (`qid`, `question`, `initial_code`, `function_name`) VAL
 
 --
 -- Table structure for table `sample_test_cases`
---
--- Creation: Jun 20, 2018 at 03:35 PM
--- Last update: Jun 20, 2018 at 04:11 PM
 --
 
 DROP TABLE IF EXISTS `sample_test_cases`;
@@ -92,9 +88,6 @@ INSERT INTO `sample_test_cases` (`st_id`, `input`, `output`, `qid`) VALUES
 
 --
 -- Table structure for table `testcase`
---
--- Creation: Jun 21, 2018 at 10:34 AM
--- Last update: Jun 21, 2018 at 02:23 PM
 --
 
 DROP TABLE IF EXISTS `testcase`;
@@ -138,6 +131,30 @@ INSERT INTO `testcase` (`tc_no`, `input_function_call`, `expected_output`, `qid`
 (2, 'print(ZipMerge([[3,66],[2,4]]))', '[3,2,66,4]', 5, 22),
 (1, 'print(ZipMerge([[3,-3],[2,2]]))', '[3,2,-3,2]', 5, 21),
 (5, 'print(ZipMerge([[4,4],[2,2]]))', '[4,2,4,2]', 5, 25);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_first` varchar(256) NOT NULL,
+  `user_last` varchar(256) NOT NULL,
+  `user_email` varchar(256) NOT NULL,
+  `user_pwd` varchar(256) NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `user_first`, `user_last`, `user_email`, `user_pwd`) VALUES
+(2, 'Shubham', 'Parchure', 'parchureshubham211@gmail.com', '$2y$10$gcelgtlirai7UYQbnJzq0ecRVddz.Rxa6mFgzA.b.BZ4K0e5Nf/VC');
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
       <head>
@@ -19,6 +21,15 @@
           .navbar{
             margin-bottom: 30px;
           }
+
+          #login-btn {
+            margin-right: 25px;
+          }
+
+          #signup-btn{
+            margin-right: 25px;
+          }
+
           #bordered-textarea{
             margin-bottom: 20px;
           }
@@ -55,14 +66,124 @@
       </head>
       <body>
         <!--NAVBAR-->
-        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#032336;" >
-            <a class="navbar-brand" href="/">BrandNameHere</a>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" bgcolor="black" >
+            <a class="navbar-brand" href="index.php">CodeMapper</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-        </nav>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.php">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="challenge-page.php">Compete</a></li>
+                    <li class="nav-item"><a class="nav-link" href="DocumentationSect.php">Resources</a></li>
+                </ul>
+                <?php
+                  if (isset($_SESSION['u_email'])) {
+                    echo '<button type="button" id="signout-btn" class="btn btn-success" data-toggle="modal" data-target="#logout-modal">Logout</button>';
+                  }// else {
+                  //   echo '<button type="button" id="login-btn" class="btn btn-primary" data-toggle="modal" data-target="#login-modal">Login</button>
+                  //   <button type="button" id="signup-btn" class="btn btn-success" data-toggle="modal" data-target="#signup-modal">Sign Up</button>';
+                  // }
+                ?>
+            </div><!--collapse-->
+        </nav><!--navbar-->
+
+        <!-- modal windows -->
+        <div class="modal fade" id="logout-modal" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logout">Logout</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div><!-- modal-header -->
+                    <div class="modal-body">
+                        <form method="post" action="BackendFunctions/logout.php">
+                            <label for="logoutQuestion">Are you sure?</label><br>
+                            <button type="submit" name="yes" class="btn btn-primary">Yes</button>
+                            <button type="submit" name="no" class="btn btn-primary">No</button>
+                        </form><!--form login-->
+
+                    </div><!-- modal-body -->
+                </div><!--modal-content-->
+            </div><!--modal-dialog-->
+        </div><!--modal-->
+
+        <div class="modal fade" id="login-modal" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="login">Login</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div><!-- modal-header -->
+                    <div class="modal-body">
+                        <form method="post" action="BackendFunctions/login.php">
+                            <div class="form-group">
+                                <label for="InputEmail1">Email address</label>
+                                <input type="email" class="form-control" name="email" id="loginEmail" aria-describedby="emailHelp" placeholder="Enter email">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputPassword1">Password</label>
+                                <input type="password" class="form-control" name="pwd" id="exampleInputPassword1" placeholder="Password">
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                            </div>
+                            <button type="submit" name="submit" class="btn btn-primary">Log in</button>
+                        </form><!--form login-->
+
+                    </div><!-- modal-body -->
+                </div><!--modal-content-->
+            </div><!--modal-dialog-->
+        </div><!--modal-->
+
+        <div class="modal fade" id="signup-modal" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="login">Sign Up</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div><!-- modal-header -->
+                    <div class="modal-body">
+                        <form method="post" action="BackendFunctions/signup.php">
+                            <div class="form-group">
+                                <label for="InputFirstName">Firstname</label>
+                                <input type="text" class="form-control" id="FirstName" aria-describedby="FName" name="first" placeholder="Enter your first name">
+                            </div>
+                            <div class="form-group">
+                                <label for="InputLastName">Lastname</label>
+                                <input type="text" class="form-control" id="LastName" aria-describedby="LName" name="last" placeholder="Enter your last name">
+                            </div>
+                            <div class="form-group">
+                                <label for="InputEmail1">Email address</label>
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Enter email">
+                            </div>
+                            <div class="form-group">
+                                <label for="InputPassword1">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" name="pwd" placeholder="Password">
+                            </div>
+                            <div class="form-group">
+                                <label for="InputPassword1">Confirm Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" name="pwdchk" placeholder="Re-type Password">
+                            </div>
+                            <button type="submit" name="submit" class="btn btn-success">Sign up</button>
+                        </form><!--form signup-->
+
+                    </div><!-- modal-body -->
+                </div><!--modal-content-->
+            </div><!--modal-dialog-->
+        </div><!--modal-->
         <!-- body -->
-        <div class="container">
+        <div class="container" style="padding-top:70px;">
              <p class="lead"><span id="qnumber"></span><span id="question"></span></p>
 
              <!--sample test cases-->

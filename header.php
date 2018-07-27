@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 
+<?php session_start(); ?>
+
 <html lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -11,7 +13,7 @@
         <meta name="author" content="">
         <link rel="icon" href="vendors/img/favicon.ico">
 
-        <title>Test Page!</title>
+        <title>CodeMapper</title>
 
         <!--Bootstrap CORE CSS-->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -31,6 +33,8 @@
         <link rel="stylesheet" href="vendors/css/demo.css">
         <link rel="stylesheet" href="vendors/css/component.css">
 
+        <link rel="stylesheet" type="text/css" href="vendors/plugin/codemirror/lib/codemirror.css">
+        <link rel="stylesheet" type="text/css" href="vendors/plugin/codemirror/theme/rubyblue.css">
     </head>
 
     <body>
@@ -39,36 +43,58 @@
         <header class="site-header" role="banner">
 
             <!--NAVBAR-->
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" >
-                    <a class="navbar-brand" href="/">CodeMapper</a>
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" bgcolor="black" >
+                    <a class="navbar-brand" href="index.php">CodeMapper</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>
-                            <li class="nav-item"><a class="nav-link" href="challenge-page.html">Compete</a></li>
-                            <li class="nav-item"><a class="nav-link" href="DocumentationSect.html">Resources</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.php">About Us</a></li>
+                            <li class="nav-item"><a class="nav-link" href="challenge-page.php">Compete</a></li>
+                            <li class="nav-item"><a class="nav-link" href="DocumentationSect.php">Resources</a></li>
                         </ul>
-                        <button type="button" id="login-btn" class="btn btn-primary" data-toggle="modal" data-target="#login-modal">Login</button>
-                        <button type="button" id="signup-btn" class="btn btn-success" data-toggle="modal" data-target="#signup-modal">Sign Up</button>
+                        <?php
+                          if (isset($_SESSION['u_email'])) {
+                            echo '<button type="button" id="signout-btn" class="btn btn-success" data-toggle="modal" data-target="#logout-modal">Logout</button>';
+                          } else {
+                            echo '<button type="button" id="login-btn" class="btn btn-primary" data-toggle="modal" data-target="#login-modal">Login</button>
+                            <button type="button" id="signup-btn" class="btn btn-success" data-toggle="modal" data-target="#signup-modal">Sign Up</button>';
+                          }
+                        ?>
+
+
                     </div><!--collapse-->
                 </nav><!--navbar-->
         </header><!--header-->
 
-        <!--HERO SECTION-->
-        <div class="demo-1">
-    			<div class="content">
-    				<div id="large-header" class="large-header">
-    					<canvas id="demo-canvas"></canvas>
-    					<h1 class="main-title">CODE <span class="thin">MAPPER</span></h1>
-    				</div>
-    			</div>
+
 
         <!--MODAL-->
         <!--=================================================-->
+        <div class="modal fade" id="logout-modal" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="logout">Logout</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div><!-- modal-header -->
+                    <div class="modal-body">
+                        <form method="post" action="BackendFunctions/logout.php">
+                            <label for="logoutQuestion">Are you sure?</label><br>
+                            <button type="submit" name="yes" class="btn btn-primary">Yes</button>
+                            <button type="submit" name="no" class="btn btn-primary">No</button>
+                        </form><!--form login-->
+
+                    </div><!-- modal-body -->
+                </div><!--modal-content-->
+            </div><!--modal-dialog-->
+        </div><!--modal-->
+
         <div class="modal fade" id="login-modal" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -79,20 +105,21 @@
                         </button>
                     </div><!-- modal-header -->
                     <div class="modal-body">
-                        <form>
+                        <form method="post" action="BackendFunctions/login.php">
                             <div class="form-group">
                                 <label for="InputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                <input type="email" class="form-control" name="email" id="loginEmail" aria-describedby="emailHelp" placeholder="Enter email">
+                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
                             <div class="form-group">
                                 <label for="InputPassword1">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <input type="password" class="form-control" name="pwd" id="exampleInputPassword1" placeholder="Password">
                             </div>
                             <div class="form-check">
                                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                 <label class="form-check-label" for="exampleCheck1">Remember me</label>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" name="submit" class="btn btn-primary">Log in</button>
                         </form><!--form login-->
 
                     </div><!-- modal-body -->
@@ -110,45 +137,31 @@
                         </button>
                     </div><!-- modal-header -->
                     <div class="modal-body">
-                        <form>
+                        <form method="post" action="BackendFunctions/signup.php">
                             <div class="form-group">
-                                <label for="InputName">Name</label>
-                                <input type="text" class="form-control" id="exampleInputName" aria-describedby="Name" placeholder="Enter name">
+                                <label for="InputFirstName">Firstname</label>
+                                <input type="text" class="form-control" id="FirstName" aria-describedby="FName" name="first" placeholder="Enter your first name">
+                            </div>
+                            <div class="form-group">
+                                <label for="InputLastName">Lastname</label>
+                                <input type="text" class="form-control" id="LastName" aria-describedby="LName" name="last" placeholder="Enter your last name">
                             </div>
                             <div class="form-group">
                                 <label for="InputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Enter email">
                             </div>
                             <div class="form-group">
                                 <label for="InputPassword1">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <input type="password" class="form-control" id="exampleInputPassword1" name="pwd" placeholder="Password">
                             </div>
                             <div class="form-group">
                                 <label for="InputPassword1">Confirm Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Re-type Password">
+                                <input type="password" class="form-control" id="exampleInputPassword1" name="pwdchk" placeholder="Re-type Password">
                             </div>
-                            <button type="submit" class="btn btn-primary">Sign up</button>
-                        </form><!--form login-->
+                            <button type="submit" name="submit" class="btn btn-success">Sign up</button>
+                        </form><!--form signup-->
 
                     </div><!-- modal-body -->
                 </div><!--modal-content-->
             </div><!--modal-dialog-->
         </div><!--modal-->
-
-
-
-
-        <!--JQuery-->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-
-        <!--Bootstrap CORE JS-->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-        <!-- Animation JS -->
-        <script src="vendors/js/TweenLite.min.js"></script>
-        <script src="vendors/js/EasePack.min.js"></script>
-        <script src="vendors/js/rAF.js"></script>
-        <script src="vendors/js/demo-1.js"></script>
-
-    </body>
-</html>
