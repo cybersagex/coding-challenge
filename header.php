@@ -43,7 +43,7 @@
         <header class="site-header" role="banner">
 
             <!--NAVBAR-->
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" >
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="color:white;" >
                     <a class="navbar-brand" href="index.php">CodeMapper</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -62,17 +62,13 @@
                             ?>
                             <li class="nav-item"><a class="nav-link" href="DocumentationSect.php">Resources</a></li>
                         </ul>
-
-                         <?php
+                        <?php
 
                           if (isset($_SESSION['u_email'])) {
                             $name = $_SESSION['u_first'];
-                            echo $name;
-                          } else {
-                            echo "";
+                            echo "Hey, ",$name;
                           }
-                        ?>
-                        <?php
+
                           if (isset($_SESSION['u_email'])) {
                             echo '<button type="button" id="signout-btn" class="btn btn-success" data-toggle="modal" data-target="#logout-modal">Logout</button>';
                           } else {

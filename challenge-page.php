@@ -20,6 +20,7 @@
         <style type="text/css">
           .navbar{
             margin-bottom: 30px;
+            color: white;
           }
 
           #login-btn {
@@ -61,6 +62,12 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
           }
+
+          #signout-btn {
+            margin-left: 25px;
+          }
+
+
         </style>
 
       </head>
@@ -81,11 +88,12 @@
                 </ul>
                 <?php
                   if (isset($_SESSION['u_email'])) {
+                    $name = $_SESSION['u_first'];
+                    echo "Hey, ",$name;
+                  }
+                  if (isset($_SESSION['u_email'])) {
                     echo '<button type="button" id="signout-btn" class="btn btn-success" data-toggle="modal" data-target="#logout-modal">Logout</button>';
-                  }// else {
-                  //   echo '<button type="button" id="login-btn" class="btn btn-primary" data-toggle="modal" data-target="#login-modal">Login</button>
-                  //   <button type="button" id="signup-btn" class="btn btn-success" data-toggle="modal" data-target="#signup-modal">Sign Up</button>';
-                  // }
+                  }
                 ?>
             </div><!--collapse-->
         </nav><!--navbar-->
