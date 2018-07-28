@@ -7,11 +7,15 @@ body {
 }
 
 /* === SECTIONS === */
-#login-btn,#signup-btn {
+#login-btn,#signup-btn,#signout-btn {
     margin-right: 20px;
+}
+
+#signout-btn {
+	margin-left:20px;
 }
 
 .navbar {
 	margin-bottom: 30px;
-	
+
 }
