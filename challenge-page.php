@@ -275,6 +275,7 @@ include_once 'BackendFunctions/db_conn.php';
                 $("#btn-submit").click(function(){
                   record = record + 1;
                   lastScore = scores[scores.length - 1];
+                  scores = [0];
                   if(no_of_questions >= record)
                   {
                     score += lastScore;
