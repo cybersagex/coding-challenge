@@ -53,22 +53,18 @@
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
                             <li class="nav-item"><a class="nav-link" href="index.php">About Us</a></li>
-                            <?php
-                              if(isset($_SESSION['u_email'])) {
-                                echo '<li class="nav-item"><a class="nav-link" href="challenge-page.php">Compete</a></li>';
-                              } else {
-                                echo '<li class="nav-item"><a class="nav-link" href="rules.php">Compete</a></li>';
-                              }
-                            ?>
+                            <li class="nav-item"><a class="nav-link" href="rules.php">Compete</a></li>
                             <li class="nav-item"><a class="nav-link" href="DocumentationSect.php">Resources</a></li>
                         </ul>
-                        <?php
+
+                         <?php
 
                           if (isset($_SESSION['u_email'])) {
                             $name = $_SESSION['u_first'];
                             echo "Hey, ",$name;
                           }
-
+                        ?>
+                        <?php
                           if (isset($_SESSION['u_email'])) {
                             echo '<button type="button" id="signout-btn" class="btn btn-success" data-toggle="modal" data-target="#logout-modal">Logout</button>';
                           } else {

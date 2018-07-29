@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 27, 2018 at 01:24 PM
--- Server version: 5.7.21
--- PHP Version: 5.6.35
+-- Generation Time: Jul 29, 2018 at 02:05 PM
+-- Server version: 5.7.19
+-- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -126,11 +126,11 @@ INSERT INTO `testcase` (`tc_no`, `input_function_call`, `expected_output`, `qid`
 (3, 'print(tuple_eq((-22,22)))', 'False', 4, 18),
 (4, 'print(tuple_eq((\"a\",\"a\")))', 'True', 4, 19),
 (5, 'print(tuple_eq((\"aba\",\"baa\")))', 'False', 4, 20),
-(4, 'print(ZipMerge([[\"a\",\"b\"],[\"c\",\"d\"]]))', '[\"a\",\"c\",\"b\",\"d\"]', 5, 24),
-(3, 'print(ZipMerge([[\"a\",2],[\"b\",3]]))', '[\"a\",\"b\",2,3]', 5, 23),
-(2, 'print(ZipMerge([[3,66],[2,4]]))', '[3,2,66,4]', 5, 22),
-(1, 'print(ZipMerge([[3,-3],[2,2]]))', '[3,2,-3,2]', 5, 21),
-(5, 'print(ZipMerge([[4,4],[2,2]]))', '[4,2,4,2]', 5, 25);
+(4, 'print(ZipMerge([[\"a\",\"b\"],[\"c\",\"d\"]]))', '[\'a\', \'c\', \'b\', \'d\']', 5, 24),
+(3, 'print(ZipMerge([[\"a\",2],[\"b\",3]]))', '[\'a\', \'b\', 2, 3]', 5, 23),
+(2, 'print(ZipMerge([[3,66],[2,4]]))', '[3, 2, 66, 4]', 5, 22),
+(1, 'print(ZipMerge([[3,-3],[2,2]]))', '[3, 2, -3, 2]', 5, 21),
+(5, 'print(ZipMerge([[4,4],[2,2]]))', '[4, 2, 4, 2]', 5, 25);
 
 -- --------------------------------------------------------
 
@@ -146,14 +146,37 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_email` varchar(256) NOT NULL,
   `user_pwd` varchar(256) NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `user_first`, `user_last`, `user_email`, `user_pwd`) VALUES
-(2, 'Shubham', 'Parchure', 'parchureshubham211@gmail.com', '$2y$10$gcelgtlirai7UYQbnJzq0ecRVddz.Rxa6mFgzA.b.BZ4K0e5Nf/VC');
+(2, 'Shubham', 'Parchure', 'parchureshubham211@gmail.com', '$2y$10$gcelgtlirai7UYQbnJzq0ecRVddz.Rxa6mFgzA.b.BZ4K0e5Nf/VC'),
+(7, 'Rucha', 'Mahabal', 'ruchamahabal812@gmail.com', '$2y$10$mYIGoONQegdFU0yTaivWyuO36NFcHolWMYQPabH7n0uNejqt8VB7C');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_scores`
+--
+
+DROP TABLE IF EXISTS `user_scores`;
+CREATE TABLE IF NOT EXISTS `user_scores` (
+  `user_id` int(11) DEFAULT NULL,
+  `score` int(11) DEFAULT NULL,
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_scores`
+--
+
+INSERT INTO `user_scores` (`user_id`, `score`) VALUES
+(7, 0),
+(7, 50),
+(7, 100);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

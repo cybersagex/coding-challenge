@@ -11,7 +11,6 @@
      if($resultCheck > 0){
        $row = mysqli_fetch_assoc($result);
      }
-
      //fetching sample_test_cases
      $sql = 'select st_id,input,output from sample_test_cases where qid ='.$_POST['rnum'].';';
      $result = mysqli_query($conn, $sql);
