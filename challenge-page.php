@@ -279,6 +279,7 @@ include_once 'BackendFunctions/db_conn.php';
                   if(no_of_questions >= record)
                   {
                     score += lastScore;
+                    //alert(score);
                     $.ajax({
                       type:'POST',
                       url:'BackendFunctions/fetch_next_question.php',
@@ -318,6 +319,7 @@ include_once 'BackendFunctions/db_conn.php';
                  else
                  {
                    score += lastScore;
+                   //alert(score);
                    $.ajax({
                       type:'POST',
                       url:'BackendFunctions/score_entry.php',
