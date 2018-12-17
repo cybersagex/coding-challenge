@@ -134,14 +134,14 @@ include_once 'BackendFunctions/db_conn.php';
               Test Case 3
               <span id="tc3" class="badge badge-primary badge-pill"></span>
             </li>
-            <li id="testCase4" class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+            <!-- <li id="testCase4" class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
               Test Case 4
               <span id="tc4" class="badge badge-primary badge-pill"></span>
             </li>
             <li id="testCase5" class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
               Test Case 5
               <span id="tc5" class="badge badge-primary badge-pill"></span>
-            </li>
+            </li> -->
           </ul>
 
           <div id="output" class="border border-success">
@@ -168,12 +168,17 @@ include_once 'BackendFunctions/db_conn.php';
             //setting up the coding text-editor
             $(document).ready(function(){
                 //code here....
+                $('#btn-submit').prop("disabled",true);
                 var code = $(".codemirror-textarea")[0];
                 //testcases and expectedOutput will be fetched from database
                 var testcases = new Array();
                 var expectedOutput = new Array();
+                var levels = new Array();
+                var type = new Array();
                 //score array to store successive scores
                 var scores = new Array();
+                //sampleSuccess array to store whether all sample testcases are satisfied.. if yes then submit button is enabled.
+                var sampleSuccess = new Array();
                 //score to store final score
                 var score = 0;
                 //adding codemirror to textarea
@@ -204,6 +209,8 @@ include_once 'BackendFunctions/db_conn.php';
                       var sampleTC = data.sample_testcases;
                       testcases = data.testcases_inp;
                       expectedOutput = data.testcases_out;
+                      levels = data.difficulty_level;
+                      type = data.type;
                       $('#qnumber').html("Q<b>"+qno+".</b> ");
                       $('#question').html("<b>"+quest+"</b>");
                       $('#tc').html(sampleTC);
@@ -215,6 +222,7 @@ include_once 'BackendFunctions/db_conn.php';
                 //compile/run button function
                 $("#btn-run").click(function(){
                     scoreSum = 0;
+                    sampleSuccess = [];
                     var userCode = editor.getValue();
                     var i;
                     for(i=0;i<testcases.length;i++)
@@ -231,6 +239,22 @@ include_once 'BackendFunctions/db_conn.php';
                     },
                     complete: function(){
                       $(".loader").hide();
+                      var flag=0;
+                      for(var k=0;k<sampleSuccess.length;k++){
+                        if(sampleSuccess[k]==1){
+                          flag = 1;
+                        }
+                        else{
+                          flag=0;
+                          break;
+                        }
+                      }
+                      if(flag==1){
+                        $('#btn-submit').prop('disabled',false);
+                      }
+                      else if(flag==0){
+                        $('#btn-submit').prop('disabled',true);
+                      }
                     },
                     success: function(data) {
                         var out=JSON.parse(data);
@@ -239,27 +263,41 @@ include_once 'BackendFunctions/db_conn.php';
                         var count=1;
                         for(j=0;j<outputs.length;j++)
                         {
-                          if(expectedOutput[j]===outputs[j])
+                          if(type[j]=="sample")
                           {
-                            $("#testCase"+count).removeClass("list-group-item-primary");
-                            $("#testCase"+count).removeClass("list-group-item-danger");
-                            $("#testCase"+count).addClass("list-group-item-success");
-                            $("#tc"+count).removeClass("badge-primary");
-                            $("#tc"+count).removeClass("badge-danger");
-                            $("#tc"+count).addClass("badge-success");
-                            $("#tc"+count).html("passed");
-                            scoreSum += 10;
+                              if(expectedOutput[j]===outputs[j])
+                              {
+                                $("#testCase"+count).removeClass("list-group-item-primary");
+                                $("#testCase"+count).removeClass("list-group-item-danger");
+                                $("#testCase"+count).addClass("list-group-item-success");
+                                $("#tc"+count).removeClass("badge-primary");
+                                $("#tc"+count).removeClass("badge-danger");
+                                $("#tc"+count).addClass("badge-success");
+                                $("#tc"+count).html("passed");
+                                scoreSum += parseInt(levels[j]);
+                                sampleSuccess.push(1);
+                              }
+                              else {
+                                $("#testCase"+count).removeClass("list-group-item-primary");
+                                $("#testCase"+count).removeClass("list-group-item-success");
+                                $("#testCase"+count).addClass("list-group-item-danger");
+                                $("#tc"+count).removeClass("badge-primary");
+                                $("#tc"+count).removeClass("badge-success");
+                                $("#tc"+count).addClass("badge-danger");
+                                $("#tc"+count).html("failed");
+                                sampleSuccess.push(0);
+                              }
+                              count++;
                           }
-                          else {
-                            $("#testCase"+count).removeClass("list-group-item-primary");
-                            $("#testCase"+count).removeClass("list-group-item-success");
-                            $("#testCase"+count).addClass("list-group-item-danger");
-                            $("#tc"+count).removeClass("badge-primary");
-                            $("#tc"+count).removeClass("badge-success");
-                            $("#tc"+count).addClass("badge-danger");
-                            $("#tc"+count).html("failed");
+                          else if(type[j]=="hidden")
+                          {
+                              if(expectedOutput[j]===outputs[j])
+                              {
+                                scoreSum += parseInt(levels[j]);
+                              }
+                              else {
+                              }
                           }
-                          count++;
                           scores.push(scoreSum);
                         }
                         $("textarea#output-textarea").val(data);
@@ -267,7 +305,6 @@ include_once 'BackendFunctions/db_conn.php';
                     }).fail(function(){
                         alert("could not complete");
                     });
-
                 });
                 var no_of_questions = '<?php echo $no_of_questions; ?>';
                 var lastScore;
@@ -275,6 +312,7 @@ include_once 'BackendFunctions/db_conn.php';
                 $("#btn-submit").click(function(){
                   record = record + 1;
                   lastScore = scores[scores.length - 1];
+                  //alert(lastScore);
                   scores = [0];
                   if(no_of_questions >= record)
                   {
@@ -290,6 +328,7 @@ include_once 'BackendFunctions/db_conn.php';
                       },
                       complete: function(){
                         $(".loader").hide();
+                        $('#btn-submit').prop("disabled",true);
                       },
                       success: function(data){
                           var qno = data.qid;
@@ -298,11 +337,13 @@ include_once 'BackendFunctions/db_conn.php';
                           var sampleTC = data.sample_testcases;
                           testcases = data.testcases_inp;
                           expectedOutput = data.testcases_out;
+                          levels = data.difficulty_level;
+                          type = data.type;
                           $('#qnumber').html("<b>Q"+qno+"</b>.");
                           $('#question').html("<b>"+quest+"</b>");
                           $('#tc').html(sampleTC);
                           editor.getDoc().setValue("#don't touch this function call\n"+initial);
-                          for(count=1;count<=5;count++){
+                          for(count=1;count<=3;count++){
                             $("#testCase"+count).removeClass("list-group-item-success");
                             $("#testCase"+count).removeClass("list-group-item-danger");
                             $("#testCase"+count).addClass("list-group-item-primary");
