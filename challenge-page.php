@@ -76,6 +76,10 @@ include_once 'BackendFunctions/db_conn.php';
           #signout-btn {
             margin-left: 25px;
           }
+          .timer {
+            font-size: 2em;
+            text-align: center;
+          }
         </style>
 
       </head>
@@ -89,10 +93,13 @@ include_once 'BackendFunctions/db_conn.php';
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </nav><!--navbar-->
+            <div class="timer" float=right>
+              <time id="countdown">90:00</time>
+            </div>
         </header><!--header-->
 
         <!-- body -->
-        <div class="container" style="padding-top:70px;">
+        <div class="container" style="padding-top:30px;">
              <p class="lead"><span id="qnumber"></span><span id="question"></span></p>
 
              <!--sample test cases-->
@@ -163,6 +170,29 @@ include_once 'BackendFunctions/db_conn.php';
         <script type="text/javascript" src="vendors/js/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <!-- script for timer -->
+        <script>
+            var seconds = 5400;
+            function secondPassed() {
+              var minutes = Math.round((seconds - 30)/60),
+                  remainingSeconds = seconds % 60;
+
+              if (remainingSeconds < 10) {
+                  remainingSeconds = "0" + remainingSeconds;
+              }
+
+              document.getElementById('countdown').innerHTML = minutes + ":" + remainingSeconds;
+              if (seconds == 0) {
+                  clearInterval(countdownTimer);
+                //form1 is your form name
+                document.form1.submit();
+              } else {
+                  seconds--;
+              }
+          }
+          var countdownTimer = setInterval('secondPassed()', 1000);
+        </script>
 
         <script type="text/javascript">
             //setting up the coding text-editor
