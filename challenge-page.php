@@ -171,28 +171,7 @@ include_once 'BackendFunctions/db_conn.php';
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-        <!-- script for timer -->
-        <script>
-            var seconds = 5400;
-            function secondPassed() {
-              var minutes = Math.round((seconds - 30)/60),
-                  remainingSeconds = seconds % 60;
 
-              if (remainingSeconds < 10) {
-                  remainingSeconds = "0" + remainingSeconds;
-              }
-
-              document.getElementById('countdown').innerHTML = minutes + ":" + remainingSeconds;
-              if (seconds == 0) {
-                  clearInterval(countdownTimer);
-                //form1 is your form name
-                document.form1.submit();
-              } else {
-                  seconds--;
-              }
-          }
-          var countdownTimer = setInterval('secondPassed()', 1000);
-        </script>
 
         <script type="text/javascript">
             //setting up the coding text-editor
@@ -403,7 +382,42 @@ include_once 'BackendFunctions/db_conn.php';
                  }
                 });
             });
+            function timeoutSubmit(){
+              lastScore = scores[scores.length - 1];
+              score += lastScore;
+              alert(score);
+              $.ajax({
+                 type:'POST',
+                 url:'BackendFunctions/score_entry.php',
+                 data: {scr:score},
+                 success: function(data){
+                    $("#output").append(score);
+                    window.location.href = "score-page.php";
+                 }
+              });
+            }
+               // script for timer 
+                var seconds = 60;
+                //setTimeout('timeoutSubmit()',6000);
+                function secondPassed() {
+                  var minutes = Math.round((seconds - 30)/60),
+                      remainingSeconds = seconds % 60;
 
+                  if (remainingSeconds < 10) {
+                      remainingSeconds = "0" + remainingSeconds;
+                  }
+
+                  document.getElementById('countdown').innerHTML = minutes + ":" + remainingSeconds;
+                  if (seconds == 0) {
+                      clearInterval(countdownTimer);
+                    //form1 is your form name
+                    document.form1.submit();
+                    timeoutSubmit();
+                  } else {
+                      seconds--;
+                  }
+              }
+              var countdownTimer = setInterval('secondPassed()', 1000);
         </script>
       </body>
 </html>
