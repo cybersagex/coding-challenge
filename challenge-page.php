@@ -175,10 +175,13 @@ include_once 'BackendFunctions/db_conn.php';
 
         <script type="text/javascript">
             //setting up the coding text-editor
+            var score=0;
+            var lastScore=0;
             $(document).ready(function(){
                 //code here....
                 $('#btn-submit').prop("disabled",true);
                 var code = $(".codemirror-textarea")[0];
+                var seconds = 60;
                 //testcases and expectedOutput will be fetched from database
                 var testcases = new Array();
                 var expectedOutput = new Array();
@@ -189,7 +192,8 @@ include_once 'BackendFunctions/db_conn.php';
                 //sampleSuccess array to store whether all sample testcases are satisfied.. if yes then submit button is enabled.
                 var sampleSuccess = new Array();
                 //score to store final score
-                var score = 0;
+                // var score=0;
+                // var lastScore=0;
                 //adding codemirror to textarea
                 var editor = CodeMirror.fromTextArea(code,{
                     lineNumbers : true,
@@ -316,14 +320,13 @@ include_once 'BackendFunctions/db_conn.php';
                     });
                 });
                 var no_of_questions = '<?php echo $no_of_questions; ?>';
-                var lastScore;
                 //next button function
                 $("#btn-submit").click(function(){
                   record = record + 1;
                   lastScore = scores[scores.length - 1];
                   //alert(lastScore);
                   scores = [0];
-                  if(no_of_questions >= record)
+                  if(no_of_questions >= record && seconds>0)
                   {
                     score += lastScore;
                     //alert(score);
@@ -381,43 +384,26 @@ include_once 'BackendFunctions/db_conn.php';
                    });
                  }
                 });
-            });
-            function timeoutSubmit(){
-              lastScore = scores[scores.length - 1];
-              score += lastScore;
-              alert(score);
-              $.ajax({
-                 type:'POST',
-                 url:'BackendFunctions/score_entry.php',
-                 data: {scr:score},
-                 success: function(data){
-                    $("#output").append(score);
-                    window.location.href = "score-page.php";
-                 }
-              });
-            }
-               // script for timer 
-                var seconds = 60;
-                //setTimeout('timeoutSubmit()',6000);
-                function secondPassed() {
-                  var minutes = Math.round((seconds - 30)/60),
-                      remainingSeconds = seconds % 60;
+                // script for timer
+                 function secondPassed() {
+                   var minutes = Math.round((seconds - 30)/60),
+                       remainingSeconds = seconds % 60;
 
-                  if (remainingSeconds < 10) {
-                      remainingSeconds = "0" + remainingSeconds;
-                  }
+                   if (remainingSeconds < 10) {
+                       remainingSeconds = "0" + remainingSeconds;
+                   }
 
-                  document.getElementById('countdown').innerHTML = minutes + ":" + remainingSeconds;
-                  if (seconds == 0) {
-                      clearInterval(countdownTimer);
-                    //form1 is your form name
-                    document.form1.submit();
-                    timeoutSubmit();
-                  } else {
-                      seconds--;
-                  }
-              }
-              var countdownTimer = setInterval('secondPassed()', 1000);
+                   document.getElementById('countdown').innerHTML = minutes + ":" + remainingSeconds;
+                   if (seconds == 0) {
+                       clearInterval(countdownTimer);
+                     //form1 is your form name
+                     $("#btn-submit").click();
+                   } else {
+                       seconds--;
+                   }
+               }
+               var countdownTimer = setInterval(secondPassed, 1000);
+         });
         </script>
       </body>
 </html>
