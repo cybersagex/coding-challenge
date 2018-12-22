@@ -177,11 +177,13 @@ include_once 'BackendFunctions/db_conn.php';
             //setting up the coding text-editor
             var score=0;
             var lastScore=0;
+            //var totalTime = 60; //total 120 mins i.e 7200 seconds
+            var seconds = 60;
+            var timeRemaining = 0;
             $(document).ready(function(){
                 //code here....
                 $('#btn-submit').prop("disabled",true);
                 var code = $(".codemirror-textarea")[0];
-                var seconds = 60;
                 //testcases and expectedOutput will be fetched from database
                 var testcases = new Array();
                 var expectedOutput = new Array();
@@ -372,6 +374,9 @@ include_once 'BackendFunctions/db_conn.php';
                  else
                  {
                    score += lastScore;
+                   //calculate time remaining and add it to score
+                   //timeRemaining = totalTime - seconds;
+                   score += seconds;
                    //alert(score);
                    $.ajax({
                       type:'POST',

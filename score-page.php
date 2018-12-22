@@ -27,7 +27,7 @@
           <div class="card" style="width: 18rem;">
             <div class="card-body">
               <h5 class="card-title">Your Score</h5>
-              <p class="card-text"><?php echo $_SESSION['user_score']?> out of 300</p>
+              <p class="card-text"><?php echo $_SESSION['user_score']?> out of 360</p>
               <p class="card-text">Thankyou for completing the challenge. Happy coding!</p>
               <a href="index.php" class="btn btn-primary">Home</a>
             </div>
