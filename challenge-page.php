@@ -93,8 +93,13 @@ include_once 'BackendFunctions/db_conn.php';
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </nav><!--navbar-->
-            <div class="timer" float=right>
-              <time id="countdown">90:00</time>
+            <div class="container" style="padding-top:30px;">
+                <div class="timer" float="left">
+                  Time remaining: <time id="countdown">90:00</time>
+                </div>
+                <div class="timer">
+                  Compilation Calls remaining: <span id="callsRem"></span>
+                </div>
             </div>
         </header><!--header-->
 
@@ -123,8 +128,9 @@ include_once 'BackendFunctions/db_conn.php';
             <script type="text/javascript" src="vendors/plugin/codemirror/addon/edit/closebrackets.js"></script>
 
           </div><!-- bordered-textarea -->
-          <button id="btn-run" type="button" class="btn btn-info">Compile/Run</button><!--run/compile button-->
-
+          <button id="btn-run" type="button" class="btn btn-info">
+            Compile/Run<span style="margin-left:5px;" id="calls" class="badge badge-light"></span>
+          </button><!--run/compile button-->
           <button id="btn-submit" type="button" class="btn btn-success">Submit and Next</button><!--submit and next button -->
           <div class="loader"></div>
           <!--test cases container -->
@@ -180,8 +186,11 @@ include_once 'BackendFunctions/db_conn.php';
             //var totalTime = 60; //total 120 mins i.e 7200 seconds
             var seconds = 60;
             var timeRemaining = 0;
+            var compilationCalls = 20;
             $(document).ready(function(){
                 //code here....
+                $("#calls").html(compilationCalls);
+                $("#callsRem").html(compilationCalls);
                 $('#btn-submit').prop("disabled",true);
                 var code = $(".codemirror-textarea")[0];
                 //testcases and expectedOutput will be fetched from database
@@ -236,6 +245,14 @@ include_once 'BackendFunctions/db_conn.php';
                 });
                 //compile/run button function
                 $("#btn-run").click(function(){
+                    compilationCalls-=1;
+                    if(compilationCalls < 0){
+                      alert("You have exhausted your compilation calls! :(");
+                      $("#btn-submit").click();
+                      $('#btn-run').prop('disabled',false);
+                    }
+                    $("#calls").html(compilationCalls);
+                    $("#callsRem").html(compilationCalls);
                     scoreSum = 0;
                     sampleSuccess = [];
                     var userCode = editor.getValue();
@@ -328,7 +345,7 @@ include_once 'BackendFunctions/db_conn.php';
                   lastScore = scores[scores.length - 1];
                   //alert(lastScore);
                   scores = [0];
-                  if(no_of_questions >= record && seconds>0)
+                  if(no_of_questions >= record && seconds>0 && compilationCalls>0)
                   {
                     score += lastScore;
                     //alert(score);
