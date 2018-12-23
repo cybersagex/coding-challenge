@@ -92,15 +92,16 @@ include_once 'BackendFunctions/db_conn.php';
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <ul class="navbar-nav ml-auto">
+                  <li class="nav-item" style="margin-right:15px;">
+                    Time remaining: <time id="countdown"> 90:00</time>
+                  </li>
+                  <li class="nav-item" style="margin-right:15px;">
+                    Calls remaining: <span id="callsRem"></span>
+                  </li>
+                </ul>
             </nav><!--navbar-->
-            <div class="container" style="padding-top:30px;">
-                <div class="timer" float="left">
-                  Time remaining: <time id="countdown">90:00</time>
-                </div>
-                <div class="timer">
-                  Compilation Calls remaining: <span id="callsRem"></span>
-                </div>
-            </div>
+
         </header><!--header-->
 
         <!-- body -->
