@@ -267,6 +267,7 @@ include_once 'BackendFunctions/db_conn.php';
                     dataType: 'json',
                     beforeSend: function(){
                       $(".loader").show();
+                      $('#btn-run').prop("disabled",true);
                     },
                     complete: function(){
                       $(".loader").hide();
@@ -275,6 +276,7 @@ include_once 'BackendFunctions/db_conn.php';
                       $("#calls").html(compilationCalls);
                       $("#callsRem").html(compilationCalls);
                     }
+                    $('#btn-run').prop("disabled",false);
                       var flag=0;
                       for(var k=0;k<sampleSuccess.length;k++){
                         if(sampleSuccess[k]==1){
