@@ -189,8 +189,10 @@ include_once 'BackendFunctions/db_conn.php';
             var compilationCalls = 20;
             $(document).ready(function(){
                 //code here....
+                if(compilationCalls>=0){
                 $("#calls").html(compilationCalls);
                 $("#callsRem").html(compilationCalls);
+              }
                 $('#btn-submit').prop("disabled",true);
                 var code = $(".codemirror-textarea")[0];
                 //testcases and expectedOutput will be fetched from database
@@ -245,14 +247,11 @@ include_once 'BackendFunctions/db_conn.php';
                 });
                 //compile/run button function
                 $("#btn-run").click(function(){
-                    compilationCalls-=1;
                     if(compilationCalls < 0){
                       alert("You have exhausted your compilation calls! :(");
                       $("#btn-submit").click();
                       $('#btn-run').prop('disabled',false);
                     }
-                    $("#calls").html(compilationCalls);
-                    $("#callsRem").html(compilationCalls);
                     scoreSum = 0;
                     sampleSuccess = [];
                     var userCode = editor.getValue();
@@ -271,6 +270,11 @@ include_once 'BackendFunctions/db_conn.php';
                     },
                     complete: function(){
                       $(".loader").hide();
+                      compilationCalls-=1;
+                      if(compilationCalls>=0){
+                      $("#calls").html(compilationCalls);
+                      $("#callsRem").html(compilationCalls);
+                    }
                       var flag=0;
                       for(var k=0;k<sampleSuccess.length;k++){
                         if(sampleSuccess[k]==1){
