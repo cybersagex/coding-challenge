@@ -349,7 +349,12 @@ include_once 'BackendFunctions/db_conn.php';
                 //next button function
                 $("#btn-submit").click(function(){
                   record = record + 1;
-                  lastScore = scores[scores.length - 1];
+                  if(scores.length > 0){
+                    lastScore = scores[scores.length - 1];
+                  }
+                  else{
+                    lastScore = 0;
+                  }
                   //alert(lastScore);
                   scores = [0];
                   if(no_of_questions >= record && seconds>0 && compilationCalls>0)
@@ -363,6 +368,7 @@ include_once 'BackendFunctions/db_conn.php';
                       dataType: 'json',
                       beforeSend: function(){
                         $(".loader").show();
+                        $('#btn-submit').prop("disabled", true);
                       },
                       complete: function(){
                         $(".loader").hide();
@@ -400,16 +406,18 @@ include_once 'BackendFunctions/db_conn.php';
                    score += lastScore;
                    //calculate time remaining and add it to score
                    //timeRemaining = totalTime - seconds;
-                   score += seconds;
+                   //score += seconds;
                    //alert(score);
                    $.ajax({
                       type:'POST',
                       url:'BackendFunctions/score_entry.php',
-                      data: {scr:score},
+                      data: {scr:score, time:seconds, compile:compilationCalls},
                       success: function(data){
                          $("#output").append(score);
                          window.location.href = "score-page.php";
                       }
+                   }).fail(function(){
+                     alert("could not complete");
                    });
                  }
                 });
