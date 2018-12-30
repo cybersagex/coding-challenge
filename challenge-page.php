@@ -185,9 +185,11 @@ include_once 'BackendFunctions/db_conn.php';
             var score=0;
             var lastScore=0;
             //var totalTime = 60; //total 120 mins i.e 7200 seconds
-            var seconds = 60;
+            var seconds = 7200;
             var timeRemaining = 0;
             var compilationCalls = 20;
+            var hiddenPassed = new Array();
+            var hiddenSuccess = 0;
             $(document).ready(function(){
                 //code here....
                 if(compilationCalls>=0){
@@ -248,13 +250,14 @@ include_once 'BackendFunctions/db_conn.php';
                 });
                 //compile/run button function
                 $("#btn-run").click(function(){
-                    if(compilationCalls < 0){
+                    if(compilationCalls <= 0){
                       alert("You have exhausted your compilation calls! :(");
                       $("#btn-submit").click();
                       $('#btn-run').prop('disabled',false);
                     }
                     scoreSum = 0;
                     sampleSuccess = [];
+                    hiddenSuccess = 0;
                     var userCode = editor.getValue();
                     var i;
                     for(i=0;i<testcases.length;i++)
@@ -333,6 +336,7 @@ include_once 'BackendFunctions/db_conn.php';
                               if(expectedOutput[j]===outputs[j])
                               {
                                 scoreSum += parseInt(levels[j]);
+                                hiddenSuccess += 1;
                               }
                               else {
                               }
@@ -349,6 +353,7 @@ include_once 'BackendFunctions/db_conn.php';
                 //next button function
                 $("#btn-submit").click(function(){
                   record = record + 1;
+                  hiddenPassed.push(hiddenSuccess);
                   if(scores.length > 0){
                     lastScore = scores[scores.length - 1];
                   }
@@ -404,6 +409,11 @@ include_once 'BackendFunctions/db_conn.php';
                  else
                  {
                    score += lastScore;
+                   hiddenSum = 0;
+                   for(var k=0;k<hiddenPassed.length;k++)
+                   {
+                     hiddenSum += hiddenPassed[k];
+                   }
                    //calculate time remaining and add it to score
                    //timeRemaining = totalTime - seconds;
                    //score += seconds;
@@ -411,7 +421,7 @@ include_once 'BackendFunctions/db_conn.php';
                    $.ajax({
                       type:'POST',
                       url:'BackendFunctions/score_entry.php',
-                      data: {scr:score, time:seconds, compile:compilationCalls},
+                      data: {scr:score, time:seconds, compile:compilationCalls, hidden:hiddenSum},
                       success: function(data){
                          $("#output").append(score);
                          window.location.href = "score-page.php";

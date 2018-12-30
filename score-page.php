@@ -24,12 +24,13 @@
           </style>
         </head>
         <body>
-          <div class="card" style="width: 18rem;">
+          <div class="card" style="width: 20rem;">
             <div class="card-body">
               <h5 class="card-title">Your Score</h5>
               <p class="card-text"><?php echo $_SESSION['user_score']?> out of 300</p>
-              <p class="card-text">Time Remaining: <?php echo $_SESSION['time']?></p>
+              <p class="card-text">Time Remaining: <?php echo $_SESSION['time']?> seconds</p>
               <p class="card-text">Compilation Calls Remaining: <?php echo $_SESSION['compilationCalls']?></p>
+              <p class="card-text">Hidden Testcases Passed: <?php echo $_SESSION['hidden']?> out of 9</p>
               <p class="card-text">Thankyou for completing the challenge. Happy coding!</p>
               <a href="index.php" class="btn btn-primary">Home</a>
             </div>
